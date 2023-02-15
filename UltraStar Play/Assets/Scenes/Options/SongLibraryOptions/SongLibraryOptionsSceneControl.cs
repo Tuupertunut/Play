@@ -15,7 +15,7 @@ using UnityEngine.UIElements;
 // Disable warning about fields that are never assigned, their values are injected.
 #pragma warning disable CS0649
 
-public class SongLibraryOptionsSceneControl : MonoBehaviour, INeedInjection, ITranslator
+public class SongLibraryOptionsSceneControl : AbstractOptionsSceneControl, INeedInjection, ITranslator
 {
     [InjectedInInspector]
     public VisualTreeAsset songFolderListEntryAsset;
@@ -32,15 +32,6 @@ public class SongLibraryOptionsSceneControl : MonoBehaviour, INeedInjection, ITr
     [Inject]
     private UiManager uiManager;
 
-    [Inject]
-    private SceneNavigator sceneNavigator;
-
-    [Inject]
-    private TranslationManager translationManager;
-
-    [Inject(UxmlName = R.UxmlNames.sceneTitle)]
-    private Label sceneTitle;
-
     [Inject(UxmlName = R.UxmlNames.downloadSceneButton)]
     private Button downloadSceneButton;
 
@@ -49,9 +40,6 @@ public class SongLibraryOptionsSceneControl : MonoBehaviour, INeedInjection, ITr
 
     [Inject(UxmlName = R.UxmlNames.addButton)]
     private Button addButton;
-
-    [Inject(UxmlName = R.UxmlNames.backButton)]
-    private Button backButton;
 
     [Inject(UxmlName = R.UxmlNames.androidSongFolderHintContainer)]
     private VisualElement androidSongFolderHintContainer;
@@ -84,8 +72,10 @@ public class SongLibraryOptionsSceneControl : MonoBehaviour, INeedInjection, ITr
     private MessageDialogControl songIssueDialogControl;
     private readonly List<SongFolderListEntryControl> songFolderListEntryControls = new();
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
+
         if (SongMetaManager.IsSongScanFinished)
         {
             UpdateSongIssues();
@@ -101,12 +91,6 @@ public class SongLibraryOptionsSceneControl : MonoBehaviour, INeedInjection, ITr
         addButton.RegisterCallbackButtonTriggered(() => AddNewSongFolder());
 
         downloadSceneButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.ContentDownloadScene));
-
-        backButton.RegisterCallbackButtonTriggered(() => OnBack());
-        backButton.Focus();
-
-        InputManager.GetInputAction(R.InputActions.usplay_back).PerformedAsObservable(5)
-            .Subscribe(_ => OnBack());
 
         // Custom navigation targets
         focusableNavigator.AddCustomNavigationTarget(backButton, Vector2.left, helpButton, true);
@@ -160,7 +144,7 @@ public class SongLibraryOptionsSceneControl : MonoBehaviour, INeedInjection, ITr
         }
     }
 
-    private void OnBack()
+    protected override void OnBack()
     {
         if (helpDialogControl != null)
         {
@@ -172,7 +156,7 @@ public class SongLibraryOptionsSceneControl : MonoBehaviour, INeedInjection, ITr
         }
         else
         {
-            sceneNavigator.LoadScene(EScene.OptionsScene);
+            base.OnBack();
         }
     }
 

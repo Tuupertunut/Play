@@ -1,6 +1,6 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="background" >
-        <ui:VisualElement class="optionsSceneMainContainer">
+    <ui:VisualElement name="background" class="optionsSceneMainContainer">
+        <ui:VisualElement style="flex-grow: 1;">
             <ui:VisualElement name="topRow" class="optionsSceneTopRow" style="justify-content: space-between;">
                 <ui:VisualElement name="titleContainer" class="optionsSceneTitleContainer" style="width: 50%;">
                     <ui:VisualElement name="titleImageAndText" class="optionsSceneTitleAndImageContainer">
@@ -10,11 +10,15 @@
                         </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
+                <ui:VisualElement name="optionsSceneItemPickerContainer" style="flex-direction: row; align-items: center; justify-content: flex-end; margin-right: 10px;">
+                    <ItemPicker name="optionsSceneItemPicker" />
+                </ui:VisualElement>
                 <ui:VisualElement name="languageContainer" style="flex-direction: row; align-items: center; justify-content: flex-end;">
                     <ItemPicker name="languageChooser" />
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement style="width: 100%; flex-grow: 1; justify-content: center;">
+            <ui:VisualElement name="loadedSceneUi" style="background-color: rgba(0, 0, 0, 0); position: relative; flex-grow: 1;" />
+            <ui:VisualElement name="oldOptionsOverviewUi" style="width: 100%; flex-grow: 1; justify-content: center; display: none;">
                 <ui:VisualElement name="buttonContainer" class="optionsOverviewButtonRow">
                     <ui:Button name="gameOptionsButton" class="optionsOverviewButton">
                         <MaterialIcon icon="sports_esports" name="image" />

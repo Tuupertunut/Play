@@ -1,8 +1,11 @@
-﻿using PrimeInputActions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ProTrans;
 using UniInject;
 using UniRx;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 // Disable warning about fields that are never assigned, their values are injected.
@@ -10,11 +13,10 @@ using UnityEngine.UIElements;
 
 public class OptionsOverviewSceneControl : MonoBehaviour, INeedInjection, ITranslator
 {
+    public List<OptionSceneRecipe> optionSceneRecipes = new();
+    
     [Inject(UxmlName = R.UxmlNames.sceneTitle)]
     private Label sceneTitle;
-
-    [Inject(UxmlName = R.UxmlNames.backButton)]
-    private Button backButton;
 
     [Inject(UxmlName = R.UxmlNames.gameOptionsButton)]
     private Button gameOptionsButton;
@@ -61,6 +63,12 @@ public class OptionsOverviewSceneControl : MonoBehaviour, INeedInjection, ITrans
     [Inject(UxmlName = R.UxmlNames.playerProfileSettingsProblemHintIcon)]
     private VisualElement playerProfileSettingsProblemHintIcon;
 
+    [Inject(UxmlName = R.UxmlNames.optionsSceneItemPicker)]
+    private ItemPicker optionsSceneItemPicker;
+    
+    [Inject(UxmlName = R.UxmlNames.loadedSceneUi)]
+    private VisualElement loadedSceneUi;
+    
     [Inject]
     private SceneNavigator sceneNavigator;
 
@@ -74,17 +82,17 @@ public class OptionsOverviewSceneControl : MonoBehaviour, INeedInjection, ITrans
     private SongMetaManager songMetaManager;
 
     [Inject]
-    private UIDocument uiDoc;
-
-    [Inject]
     private Injector injector;
 
-	private void Start()
+    private LabeledItemPickerControl<OptionSceneRecipe> optionsSceneItemPickerControl;
+
+    private readonly List<GameObject> loadedGameObjects = new();
+    
+    private void Start()
     {
         gameOptionsButton.Focus();
 
         gameOptionsButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.OptionsGameScene));
-        backButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.MainScene));
         songsOptionsButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.SongLibraryOptionsScene));
         graphicsOptionsButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.OptionsGraphicsScene));
         soundOptionsButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.OptionsSoundScene));
@@ -96,11 +104,38 @@ public class OptionsOverviewSceneControl : MonoBehaviour, INeedInjection, ITrans
         developerOptionsButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.DevelopmentOptionsScene));
         webcamOptionsButton.RegisterCallbackButtonTriggered(() => sceneNavigator.LoadScene(EScene.WebcamOptionsSecene));
 
+        optionsSceneItemPickerControl = new(optionsSceneItemPicker, optionSceneRecipes);
+        optionsSceneItemPickerControl.SelectItem(optionSceneRecipes.FirstOrDefault());
+        optionsSceneItemPickerControl.Selection.Subscribe(newValue => LoadOptionsScene(newValue));
+        
         InitSettingsProblemHints();
         InitLanguageChooser();
+    }
 
-        InputManager.GetInputAction(R.InputActions.usplay_back).PerformedAsObservable(5)
-            .Subscribe(_ => sceneNavigator.LoadScene(EScene.MainScene));
+    private void LoadOptionsScene(OptionSceneRecipe sceneRecipe)
+    {
+        // Remove objects of old scene
+        loadedGameObjects.ForEach(Destroy);
+        loadedGameObjects.Clear();
+        
+        // Load scene UI
+        loadedSceneUi.Clear();
+        VisualElement loadedSceneVisualElement = sceneRecipe.visualTreeAsset.CloneTree().Children().FirstOrDefault();
+        loadedSceneUi.Add(loadedSceneVisualElement);
+
+        VisualElement scoreModeContainer = loadedSceneVisualElement.Q<VisualElement>(R.UxmlNames.scoreModeContainer);
+
+        // Load scene scripts
+        foreach (var gameObjectRecipe in sceneRecipe.sceneGameObjects)
+        {
+            GameObject loadedGameObject = Instantiate(gameObjectRecipe);
+            loadedGameObjects.Add(loadedGameObject);
+            
+            // Inject new game object
+            injector
+                .WithRootVisualElement(loadedSceneVisualElement)
+                .InjectAllComponentsInChildren(loadedGameObject);
+        }
     }
 
     private void InitSettingsProblemHints()
@@ -133,7 +168,6 @@ public class OptionsOverviewSceneControl : MonoBehaviour, INeedInjection, ITrans
     public void UpdateTranslation()
     {
         sceneTitle.text = TranslationManager.GetTranslation(R.Messages.options);
-        backButton.Q<Label>(R.UxmlNames.label).text = TranslationManager.GetTranslation(R.Messages.back);
         gameOptionsButton.Q<Label>(R.UxmlNames.label).text = TranslationManager.GetTranslation(R.Messages.options_game_button);
         songsOptionsButton.Q<Label>(R.UxmlNames.label).text = TranslationManager.GetTranslation(R.Messages.options_songLibrary_button);
         soundOptionsButton.Q<Label>(R.UxmlNames.label).text = TranslationManager.GetTranslation(R.Messages.options_sound_button);
