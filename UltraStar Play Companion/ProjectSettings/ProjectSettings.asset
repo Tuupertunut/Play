@@ -161,13 +161,13 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.ultrastar.UltraStarPlayCompanion
-    Standalone: com.Karaoke.UltraStarPlayCompanion
-    iPhone: com.Karaoke.UltraStarPlayCompanion
+    Standalone: com.ultrastar.UltraStarPlayCompanion
+    iPhone: com.ultrastar.UltraStarPlayCompanion
   buildNumber:
     Standalone: 0
     iPhone: 0
     tvOS: 0
-  overrideDefaultApplicationIdentifier: 0
+  overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 5
   AndroidMinSdkVersion: 22
   AndroidTargetSdkVersion: 0
