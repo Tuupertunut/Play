@@ -107,7 +107,7 @@ public class ContentDownloadSceneControl : AbstractOptionsSceneControl, INeedInj
             return;
         }
 
-        VisualElement dialog = dialogUi.CloneTree().Children().FirstOrDefault();
+        VisualElement dialog = dialogUi.CloneTreeAndGetFirstChildCached();
         uiDocument.rootVisualElement.Add(dialog);
 
         urlChooserDialogControl = injector

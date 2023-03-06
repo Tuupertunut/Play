@@ -103,15 +103,6 @@ public class AccordionItem : VisualElement
         
         UpdateTargetHeight();
     }
-
-    public virtual void InitControl(object AccordionItemControl)
-    {
-        if (control != null)
-        {
-            throw new UnityException("Already initialized");
-        }
-        control = AccordionItemControl;
-    }
     
     private void ToggleContentVisible()
     {

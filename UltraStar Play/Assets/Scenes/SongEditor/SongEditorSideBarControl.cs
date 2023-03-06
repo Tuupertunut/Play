@@ -231,7 +231,7 @@ public class SongEditorSideBarControl : INeedInjection, IInjectionFinishedListen
 
     private void CreateSideBarIssueUi(SongIssue issue)
     {
-        VisualElement visualElement = issueSideBarEntryUi.CloneTree().Children().First();
+        VisualElement visualElement = issueSideBarEntryUi.CloneTreeAndGetFirstChildCached();
         issuesSideBarContainer.Add(visualElement);
 
         double issueStartPositionInMillis = BpmUtils.BeatToMillisecondsInSong(songMeta, issue.StartBeat);

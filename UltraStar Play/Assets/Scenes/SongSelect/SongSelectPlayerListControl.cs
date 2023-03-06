@@ -91,7 +91,7 @@ public class SongSelectPlayerListControl : MonoBehaviour, INeedInjection
 
     private void CreateListEntry(PlayerProfile playerProfile)
     {
-        VisualElement playerEntryVisualElement = playerEntryUi.CloneTree().Children().FirstOrDefault();
+        VisualElement playerEntryVisualElement = playerEntryUi.CloneTreeAndGetFirstChildCached();
         playerScrollView.Add(playerEntryVisualElement);
 
         SongSelectPlayerEntryControl listEntryControl = injector

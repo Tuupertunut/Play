@@ -76,7 +76,7 @@ public class PlayerProfileOptionsSceneControl : AbstractOptionsSceneControl, INe
     
     private void CreatePlayerProfileEntry(PlayerProfile playerProfile, int indexInList)
     {
-        VisualElement visualElement = playerProfileListEntryAsset.CloneTree().Children().FirstOrDefault();
+        VisualElement visualElement = playerProfileListEntryAsset.CloneTreeAndGetFirstChildCached();
 
         VisualElement playerProfileInactiveOverlay = visualElement.Q<VisualElement>(R.UxmlNames.playerProfileInactiveOverlay);
 

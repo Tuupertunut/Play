@@ -101,7 +101,7 @@ public class TargetNoteControl : INeedInjection, IInjectionFinishedListener
 
     private void CreateGoldenStar()
     {
-        VisualElement star = goldenNoteStarUi.CloneTree().Children().First();
+        VisualElement star = goldenNoteStarUi.CloneTreeAndGetFirstChildCached();
         star.style.position = new StyleEnum<Position>(Position.Absolute);
         effectsContainer.Add(star);
 
@@ -143,7 +143,7 @@ public class TargetNoteControl : INeedInjection, IInjectionFinishedListener
 
     private void CreatePerfectStar()
     {
-        VisualElement star = perfectEffectStarUi.CloneTree().Children().First();
+        VisualElement star = perfectEffectStarUi.CloneTreeAndGetFirstChildCached();
         star.style.position = new StyleEnum<Position>(Position.Absolute);
         effectsContainer.Add(star);
 

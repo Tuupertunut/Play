@@ -94,7 +94,7 @@ public class RecordedNoteControl : INeedInjection, IInjectionFinishedListener
 
     private void CreateGoldenNoteHitStar()
     {
-        VisualElement star = goldenNoteHitStarUi.CloneTree().Children().First();
+        VisualElement star = goldenNoteHitStarUi.CloneTreeAndGetFirstChildCached();
         star.style.position = new StyleEnum<Position>(Position.Absolute);
         effectsContainer.Add(star);
 

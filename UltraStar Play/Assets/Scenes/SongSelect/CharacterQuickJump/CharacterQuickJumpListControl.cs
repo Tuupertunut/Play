@@ -144,7 +144,7 @@ public class CharacterQuickJumpListControl : MonoBehaviour, INeedInjection
 
     private void CreateCharacter(char character)
     {
-        VisualElement visualElement = characterUi.CloneTree().Children().FirstOrDefault();
+        VisualElement visualElement = characterUi.CloneTreeAndGetFirstChildCached();
         CharacterQuickJumpCharacterControl characterQuickJumpCharacterControl = new(visualElement, character);
         injector.WithRootVisualElement(visualElement)
             .Inject(characterQuickJumpCharacterControl);

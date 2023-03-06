@@ -214,7 +214,7 @@ public class SingingResultsSceneControl : MonoBehaviour, INeedInjection, IBinder
 
             for (int row = 0; row < rows; row++)
             {
-                VisualElement playerUi = nPlayerUi.CloneTree().Children().FirstOrDefault();
+                VisualElement playerUi = nPlayerUi.CloneTreeAndGetFirstChildCached();
                 playerUi.style.height = new StyleLength(Length.Percent(100f / rows));
                 
                 for (int i = 1; i <= playerCount; i++)

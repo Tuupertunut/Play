@@ -85,9 +85,9 @@ public class PlayerControl : MonoBehaviour, INeedInjection, IInjectionFinishedLi
         SortedSentences.Sort(Sentence.comparerByStartBeat);
 
         // Create UI
-        VisualElement playerUiVisualElement = playerUi.CloneTree().Children().First();
+        VisualElement playerUiVisualElement = playerUi.CloneTreeAndGetFirstChildCached();
         playerUiVisualElement.userData = this;
-        VisualElement playerInfoUiVisualElement = playerInfoUi.CloneTree().Children().First();
+        VisualElement playerInfoUiVisualElement = playerInfoUi.CloneTreeAndGetFirstChildCached();
         playerInfoUiVisualElement.userData = this;
         AddPlayerInfoUiToUiDocument(playerInfoUiVisualElement);
         

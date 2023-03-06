@@ -51,7 +51,7 @@ public class CompanionAppOptionsControl : AbstractOptionsSceneControl, INeedInje
 
     private VisualElement CreateClientEntry(IConnectedClientHandler clientHandler)
     {
-        VisualElement result = connectedClientListEntryAsset.CloneTree();
+        VisualElement result = connectedClientListEntryAsset.CloneTreeAndGetFirstChildCached();
         result.Q<Label>(R.UxmlNames.nameLabel).text = clientHandler.ClientName;
         return result;
     }

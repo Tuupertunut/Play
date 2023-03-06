@@ -376,7 +376,7 @@ public class SongEditorSceneControl : MonoBehaviour, IBinder, INeedInjection, II
             }
         }
 
-        VisualElement visualElement = valueInputDialogUi.CloneTree();
+        VisualElement visualElement = valueInputDialogUi.CloneTreeAndGetFirstChildCached();
         visualElement.AddToClassList("overlay");
         uiDocument.rootVisualElement.Add(visualElement);
 
@@ -411,7 +411,7 @@ public class SongEditorSceneControl : MonoBehaviour, IBinder, INeedInjection, II
             usePathCallback(path);
         }
 
-        VisualElement visualElement = valueInputDialogUi.CloneTree();
+        VisualElement visualElement = valueInputDialogUi.CloneTreeAndGetFirstChildCached();
         visualElement.AddToClassList("overlay");
         uiDocument.rootVisualElement.Add(visualElement);
 

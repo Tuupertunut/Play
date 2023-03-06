@@ -142,7 +142,7 @@ public class SongEditorSideBarPropertiesControl : INeedInjection, IInjectionFini
 
     private void CreateSongPropertiesInputControl(ESongProperty songProperty, string labelText, Func<string> valueGetter, Action<string> valueSetter)
     {
-        VisualElement visualElement = songPropertySideBarEntryUi.CloneTree().Children().First();
+        VisualElement visualElement = songPropertySideBarEntryUi.CloneTreeAndGetFirstChildCached();
         songPropertiesSideBarContainer.Add(visualElement);
 
         Label label = visualElement.Q<Label>(R.UxmlNames.propertyNameLabel);

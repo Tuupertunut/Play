@@ -234,7 +234,7 @@ public class LetterCollectorGameControl : MonoBehaviour, INeedInjection
 
     private void CreateEntryControl(CreditsEntry creditsEntry)
     {
-        VisualElement visualElement = creditsEntryUi.CloneTree().Children().FirstOrDefault();
+        VisualElement visualElement = creditsEntryUi.CloneTreeAndGetFirstChildCached();
         CreditsEntryControl entryControl = injector
             .WithRootVisualElement(visualElement)
             .CreateAndInject<CreditsEntryControl>();

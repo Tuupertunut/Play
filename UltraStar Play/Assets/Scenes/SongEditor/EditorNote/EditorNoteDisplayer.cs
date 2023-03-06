@@ -493,7 +493,7 @@ public class EditorNoteDisplayer : MonoBehaviour, INeedInjection
     {
         if (!sentenceToControlMap.TryGetValue(sentence, out EditorSentenceControl editorSentenceControl))
         {
-            VisualElement sentenceVisualElement = editorSentenceUi.CloneTree().Children().First();
+            VisualElement sentenceVisualElement = editorSentenceUi.CloneTreeAndGetFirstChildCached();
             editorSentenceControl = injector
                 .WithRootVisualElement(sentenceVisualElement)
                 .WithBindingForInstance(sentence)
@@ -568,7 +568,7 @@ public class EditorNoteDisplayer : MonoBehaviour, INeedInjection
     {
         if (!noteToControlMap.TryGetValue(note, out EditorNoteControl editorNoteControl))
         {
-            VisualElement noteVisualElement = editorNoteUi.CloneTree().Children().First();
+            VisualElement noteVisualElement = editorNoteUi.CloneTreeAndGetFirstChildCached();
             editorNoteControl = injector
                 .WithRootVisualElement(noteVisualElement)
                 .WithBindingForInstance(note)

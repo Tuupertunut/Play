@@ -202,7 +202,7 @@ public class OptionsOverviewSceneControl : MonoBehaviour, INeedInjection, ITrans
         sceneToButtonMap[scene].Focus();
         
         // Load UI
-        VisualElement loadedSceneVisualElement = loadedSceneRecipe.visualTreeAsset.CloneTree().Children().FirstOrDefault();
+        VisualElement loadedSceneVisualElement = loadedSceneRecipe.visualTreeAsset.CloneTreeAndGetFirstChildCached();
         loadedSceneContent.Add(loadedSceneVisualElement);
 
         // Load scene scripts.

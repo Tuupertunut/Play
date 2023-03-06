@@ -228,7 +228,7 @@ public class MainSceneControl : MonoBehaviour, INeedInjection, ITranslator, IBin
             return;
         }
 
-        VisualElement visualElement = quitGameDialogUi.CloneTree().Children().FirstOrDefault();
+        VisualElement visualElement = quitGameDialogUi.CloneTreeAndGetFirstChildCached();
         uiDocument.rootVisualElement.Add(visualElement);
 
         quitGameDialogControl = injector
@@ -251,7 +251,7 @@ public class MainSceneControl : MonoBehaviour, INeedInjection, ITranslator, IBin
             return;
         }
 
-        VisualElement visualElement = newSongDialogUi.CloneTree().Children().FirstOrDefault();
+        VisualElement visualElement = newSongDialogUi.CloneTreeAndGetFirstChildCached();
         uiDocument.rootVisualElement.Add(visualElement);
         // TODO would be nice to find a way to automatize calling this method when a new dialog/visual element/etc. is spawned
         ThemeManager.ApplyThemeSpecificStylesToVisualElementsInScene();

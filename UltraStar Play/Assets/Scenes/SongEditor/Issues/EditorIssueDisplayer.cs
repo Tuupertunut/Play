@@ -68,7 +68,7 @@ public class EditorIssueDisplayer : MonoBehaviour, INeedInjection, IInjectionFin
 
     private void CreateUiIssue(SongIssue issue)
     {
-        VisualElement visualElement = editorIssueUi.CloneTree().Children().First();
+        VisualElement visualElement = editorIssueUi.CloneTreeAndGetFirstChildCached();
         EditorIssueControl editorIssueControl = injector
             .WithRootVisualElement(visualElement)
             .WithBindingForInstance(issue)

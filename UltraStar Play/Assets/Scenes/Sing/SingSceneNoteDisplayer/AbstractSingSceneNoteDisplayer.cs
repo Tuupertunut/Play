@@ -203,7 +203,7 @@ public abstract class AbstractSingSceneNoteDisplayer : INeedInjection, IInjectio
             return null;
         }
 
-        VisualElement visualElement = noteUi.CloneTree().Children().First();
+        VisualElement visualElement = noteUi.CloneTreeAndGetFirstChildCached();
 
         TargetNoteControl targetNoteControl = injector
             .WithBindingForInstance(note)
@@ -290,7 +290,7 @@ public abstract class AbstractSingSceneNoteDisplayer : INeedInjection, IInjectio
             midiNote = recordedNote.RecordedMidiNote;
         }
 
-        VisualElement visualElement = noteUi.CloneTree().Children().First();
+        VisualElement visualElement = noteUi.CloneTreeAndGetFirstChildCached();
 
         Injector childInjector = UniInjectUtils.CreateInjector(injector);
         childInjector.AddBindingForInstance(childInjector);
@@ -335,7 +335,7 @@ public abstract class AbstractSingSceneNoteDisplayer : INeedInjection, IInjectio
 
     protected void CreatePerfectSentenceStar()
     {
-        VisualElement star = perfectEffectStarUi.CloneTree().Children().First();
+        VisualElement star = perfectEffectStarUi.CloneTreeAndGetFirstChildCached();
         star.style.position = new StyleEnum<Position>(Position.Absolute);
         effectsContainer.Add(star);
 

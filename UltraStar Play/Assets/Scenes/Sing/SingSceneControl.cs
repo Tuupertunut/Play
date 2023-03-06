@@ -191,7 +191,7 @@ public class SingSceneControl : MonoBehaviour, INeedInjection, IBinder
             string message = TranslationManager.GetTranslation(R.Messages.singScene_missingMicrophones_message,
                 "playerNameCsv", playerNameCsv);
 
-            VisualElement visualElement = dialogUi.CloneTree();
+            VisualElement visualElement = dialogUi.CloneTreeAndGetFirstChildCached();
             visualElement.AddToClassList("overlay");
             background.Add(visualElement);
 

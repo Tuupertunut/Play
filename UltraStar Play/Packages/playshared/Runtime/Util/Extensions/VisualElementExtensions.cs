@@ -6,6 +6,27 @@ using UnityEngine.UIElements;
 
 public static class VisualElementExtensions
 {
+    public static void RegisterValueChangedCallbackUntilDetach<T>(
+        this INotifyValueChanged<T> control,
+        EventCallback<ChangeEvent<T>> callback)
+    {
+        if (control is not CallbackEventHandler callbackEventHandler)
+            return;
+        
+        control.RegisterValueChangedCallback(callback);
+        callbackEventHandler.RegisterCallbackOneShot<DetachFromPanelEvent>(_ => callbackEventHandler.UnregisterCallback(callback));
+    }
+    
+    public static void RegisterCallbackUntilDetach<TEventType>(
+        this CallbackEventHandler callbackEventHandler,
+        EventCallback<TEventType> callback,
+        TrickleDown useTrickleDown = TrickleDown.NoTrickleDown)
+        where TEventType : EventBase<TEventType>, new()
+    {
+        callbackEventHandler.RegisterCallback<TEventType>(callback, useTrickleDown);
+        callbackEventHandler.RegisterCallbackOneShot<DetachFromPanelEvent>(_ => callbackEventHandler.UnregisterCallback(callback));
+    }
+
     public static void RegisterCallbackButtonTriggered(this Button button, Action callback)
     {
         button.RegisterCallback<ClickEvent>(_ => callback());
@@ -111,7 +132,7 @@ public static class VisualElementExtensions
      * Executes the given callback at most once when the event occurs.
      */
     public static void RegisterCallbackOneShot<TEventType>(
-        this VisualElement visualElement,
+        this CallbackEventHandler callbackEventHandler,
         EventCallback<TEventType> callback,
         TrickleDown useTrickleDown = TrickleDown.NoTrickleDown)
         where TEventType : EventBase<TEventType>, new()
@@ -123,11 +144,11 @@ public static class VisualElementExtensions
             {
                 wasExecuted = true;
                 callback(evt);
-                visualElement.UnregisterCallback<TEventType>(RunCallbackIfNotDoneYet, useTrickleDown);
+                callbackEventHandler.UnregisterCallback<TEventType>(RunCallbackIfNotDoneYet, useTrickleDown);
             }
         }
 
-        visualElement.RegisterCallback<TEventType>(RunCallbackIfNotDoneYet, useTrickleDown);
+        callbackEventHandler.RegisterCallback<TEventType>(RunCallbackIfNotDoneYet, useTrickleDown);
     }
 
     public static void SetBackgroundImageAlpha(this VisualElement visualElement, float newAlpha)

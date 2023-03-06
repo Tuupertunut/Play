@@ -80,7 +80,7 @@ public class SingingResultsHighscoreControl : INeedInjection
 
     private void CreateHighscoreEntry(SongStatistic songStatistic, int index)
     {
-        VisualElement highscoreEntry = highscoreEntryUi.CloneTree().Children().FirstOrDefault();
+        VisualElement highscoreEntry = highscoreEntryUi.CloneTreeAndGetFirstChildCached();
         highscoreEntryList.Add(highscoreEntry);
 
         SingingResultsHighscoreEntryControl entryControl = injector

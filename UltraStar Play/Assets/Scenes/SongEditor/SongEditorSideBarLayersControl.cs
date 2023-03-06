@@ -54,7 +54,7 @@ public class SongEditorSideBarLayersControl : INeedInjection, IInjectionFinished
 
     private void CreateLayerInputControl(AbstractSongEditorLayer layer)
     {
-        VisualElement visualElement = songEditorLayerSideBarEntryUi.CloneTree().Children().First();
+        VisualElement visualElement = songEditorLayerSideBarEntryUi.CloneTreeAndGetFirstChildCached();
         layersSideBarContainer.Add(visualElement);
 
         SongEditorSideBarLayerEntryControl songEditorSideBarLayerEntryControl = injector

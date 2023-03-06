@@ -47,7 +47,7 @@ public class SceneRecipeManager : AbstractSingletonBehaviour, INeedInjection
         Debug.Log($"Loading scene recipe {sceneRecipe.scene}");
 
         // Load UI
-        VisualElement loadedSceneVisualElement = loadedSceneRecipe.visualTreeAsset.CloneTree().Children().FirstOrDefault();
+        VisualElement loadedSceneVisualElement = loadedSceneRecipe.visualTreeAsset.CloneTreeAndGetFirstChildCached();
         uiDocument.rootVisualElement.Clear();
         uiDocument.rootVisualElement.Add(loadedSceneVisualElement);
 

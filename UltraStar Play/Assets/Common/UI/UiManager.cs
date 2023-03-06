@@ -72,14 +72,11 @@ public class UiManager : AbstractSingletonBehaviour, INeedInjection
         VisualElement notificationOverlay = uiDocument.rootVisualElement.Q<VisualElement>("notificationOverlay");
         if (notificationOverlay == null)
         {
-            notificationOverlay = notificationOverlayUi.CloneTree()
-                .Children()
-                .First();
+            notificationOverlay = notificationOverlayUi.CloneTreeAndGetFirstChildCached();
             uiDocument.rootVisualElement.Children().First().Add(notificationOverlay);
         }
 
-        TemplateContainer templateContainer = notificationUi.CloneTree();
-        VisualElement notification = templateContainer.Children().First();
+        VisualElement notification = notificationUi.CloneTreeAndGetFirstChildCached();
         Label notificationLabel = notification.Q<Label>("notificationLabel");
         notificationLabel.text = text;
         notificationOverlay.Add(notification);
@@ -132,7 +129,7 @@ public class UiManager : AbstractSingletonBehaviour, INeedInjection
         string dialogTitle,
         Dictionary<string, string> titleToContentMap)
     {
-        VisualElement helpDialog = dialogUi.CloneTree().Children().FirstOrDefault();
+        VisualElement helpDialog = dialogUi.CloneTreeAndGetFirstChildCached();
         uiDocument.rootVisualElement.Add(helpDialog);
         helpDialog.AddToClassList("wordWrap");
 

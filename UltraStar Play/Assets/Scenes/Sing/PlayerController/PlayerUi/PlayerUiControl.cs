@@ -229,7 +229,7 @@ public class PlayerUiControl : INeedInjection, IInjectionFinishedListener
             return null;
         }
 
-        VisualElement visualElement = sentenceRatingUi.CloneTree().Children().First();
+        VisualElement visualElement = sentenceRatingUi.CloneTreeAndGetFirstChildCached();
         visualElement.Q<Label>().text = sentenceRating.Text;
         visualElement.style.unityBackgroundImageTintColor = new StyleColor(sentenceRatingColors[sentenceRating.EnumValue]);
         parentContainer.Add(visualElement);

@@ -270,7 +270,7 @@ public class SongRouletteControl : MonoBehaviour, INeedInjection, ITranslator
         Vector2 initialSize = initialPositionPlaceholderControl.GetSize();
 
         SongEntryControl item = new(
-            songEntryUi.CloneTree().Children().FirstOrDefault(),
+            songEntryUi.CloneTreeAndGetFirstChildCached(),
             placeholderControl,
             initialPosition,
             initialSize);

@@ -175,7 +175,7 @@ public class SongLibraryOptionsSceneControl : AbstractOptionsSceneControl, INeed
                         accordionItem.Add(new Label(""));
                     }
                     // Add label for song
-                    VisualElement visualElement = songIssueSongEntryUi.CloneTree().Children().First();
+                    VisualElement visualElement = songIssueSongEntryUi.CloneTreeAndGetFirstChildCached();
                     visualElement.Q<Label>(R.UxmlNames.title).text = songMetaArtistAndTitle;
                     Button openFolderButtonOfSongMeta = visualElement.Q<Button>(R.UxmlNames.openFolderButton);
                     if (PlatformUtils.IsStandalone
@@ -198,7 +198,7 @@ public class SongLibraryOptionsSceneControl : AbstractOptionsSceneControl, INeed
             });
         }
 
-        VisualElement dialog = dialogUi.CloneTree().Children().FirstOrDefault();
+        VisualElement dialog = dialogUi.CloneTreeAndGetFirstChildCached();
         uiDocument.rootVisualElement.Add(dialog);
 
         MessageDialogControl issuesDialogControl = injector.WithRootVisualElement(dialog)
@@ -290,7 +290,7 @@ public class SongLibraryOptionsSceneControl : AbstractOptionsSceneControl, INeed
 
     private void CreateSongFolderEntryControl(string path, int indexInList)
     {
-        VisualElement visualElement = songFolderListEntryAsset.CloneTree();
+        VisualElement visualElement = songFolderListEntryAsset.CloneTreeAndGetFirstChildCached();
         SongFolderListEntryControl songFolderListEntryControl = injector
             .WithRootVisualElement(visualElement)
             .WithBinding(new Binding("initialPath", new ExistingInstanceProvider<string>(path)))
