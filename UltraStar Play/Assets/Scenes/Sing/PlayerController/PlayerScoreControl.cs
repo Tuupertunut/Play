@@ -114,6 +114,12 @@ public class PlayerScoreControl : MonoBehaviour, INeedInjection, IInjectionFinis
 
     public PlayerScoreControlData ScoreData { get; set; } = new();
 
+    private readonly HashSet<int> scoredBeats = new();
+    private readonly HashSet<int> normalNoteBeats = new();
+    private readonly HashSet<int> goldenNoteBeats = new();
+    private int firstBeatToScoreInclusive;
+    private int lastBeatToScoreExclusive;
+    
     public void OnInjectionFinished()
     {
         UpdateMaxScores(voice.Sentences);
@@ -291,6 +297,48 @@ public class PlayerScoreControl : MonoBehaviour, INeedInjection, IInjectionFinis
 
         // Remember the sentence count to calculate the points for a perfect sentence.
         ScoreData.TotalSentenceCount = sentences.Count;
+
+        PrepareBeatToBeAnalyzedChecks();
+    }
+    
+    private void PrepareBeatToBeAnalyzedChecks()
+    {
+        firstBeatToScoreInclusive = int.MaxValue;
+        lastBeatToScoreExclusive = int.MinValue;
+        scoredBeats.Clear();
+        normalNoteBeats.Clear();
+        goldenNoteBeats.Clear();
+        voice.Sentences.SelectMany(s => s.Notes).ForEach(n =>
+        {
+            // Remember first and last beat to be analyzed
+            if (n.StartBeat < firstBeatToScoreInclusive)
+            {
+                firstBeatToScoreInclusive = n.StartBeat;
+            }
+            if (n.EndBeat > lastBeatToScoreExclusive)
+            {
+                lastBeatToScoreExclusive = n.EndBeat;
+            }
+            
+            // Remember the beats of the normal and golden notes to be analyzed
+            HashSet<int> hashSet = null;
+            if (n.IsNormal)
+            {
+                hashSet = normalNoteBeats;
+            }
+            if (n.IsGolden)
+            {
+                hashSet = goldenNoteBeats;
+            }
+            
+            if (hashSet != null)
+            {
+                for (int beatIndex = n.StartBeat; beatIndex < n.StartBeat + n.Length; beatIndex++)
+                {
+                    hashSet.Add(beatIndex);
+                }
+            }
+        });
     }
 
     private int GetNormalNoteLength(Sentence sentence)
